@@ -53,8 +53,32 @@
         </section>
       </section>
 
+      <section class="section-block milestones" aria-labelledby="milestones-title">
+        <div class="section-heading"><div><span class="label-kicker">02 / Freedom milestones</span><h2 id="milestones-title">Build your exit runway.</h2></div><p>Long-term targets that turn income into optionality.</p></div>
+        <div class="milestone-grid">
+          <article class="milestone-card corpus-card glass-card">
+            <div class="card-meta"><span>Financial independence</span><span class="rule-chip">33× annual</span></div>
+            <span class="milestone-symbol">◎</span><h3>The freedom number</h3>
+            <div class="milestone-value" id="corpus-value">₹1,98,00,000</div>
+            <p class="muted">Portfolio target for a 3% withdrawal rate.</p>
+          </article>
+          <article class="milestone-card reserve-card glass-card">
+            <div class="card-meta"><span>Liquid safety net</span><span class="rule-chip">~4 months</span></div>
+            <span class="milestone-symbol">◌</span><h3>Emergency reserve</h3>
+            <div class="milestone-value" id="emergency-value">₹1,98,000</div>
+            <p class="muted">Keep this separate, liquid, and boring.</p>
+          </article>
+          <article class="milestone-card rent-card glass-card">
+            <div class="card-meta"><span>Housing ceiling</span><span class="rule-chip amber-chip">25% monthly</span></div>
+            <span class="milestone-symbol">⌂</span><h3>Rent limit</h3>
+            <div class="milestone-value" id="rent-value">₹12,500</div>
+            <p class="muted">The maximum monthly rent that keeps room for wealth.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="section-block acquisitions" aria-labelledby="limits-title">
-        <div class="section-heading"><div><span class="label-kicker">01 / Acquisition limits</span><h2 id="limits-title">Buy with conviction.</h2></div><p>Salary multiples that keep your balance sheet breathing.</p></div>
+        <div class="section-heading"><div><span class="label-kicker">03 / Acquisition limits</span><h2 id="limits-title">Buy with conviction.</h2></div><p>Salary multiples that keep your balance sheet breathing.</p></div>
         <div class="acquisition-grid">
           <article class="feature-card house-card glass-card">
             <div class="feature-icon house-icon" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -84,7 +108,7 @@
       </section>
 
       <section class="section-block spectrum" aria-labelledby="spectrum-title">
-        <div class="section-heading"><div><span class="label-kicker">02 / Monthly spectrum</span><h2 id="spectrum-title">Give every rupee a job.</h2></div><p>A practical split between compounding, vitality, freedom, and the essentials.</p></div>
+        <div class="section-heading"><div><span class="label-kicker">04 / Monthly outflow</span><h2 id="spectrum-title">Give every rupee a job.</h2></div><p>A practical split between compounding, vitality, freedom, and the essentials.</p></div>
         <div class="spectrum-grid">
           <article class="allocation-card glass-card">
             <div class="allocation-top"><div><span class="label-kicker">₹<span id="monthly-total">50,000</span> monthly</span><h3>Core allocation</h3></div><span class="pill green-pill">Healthy split</span></div>
@@ -107,13 +131,24 @@
       </section>
 
       <section class="section-block tester" aria-labelledby="tester-title">
-        <div class="section-heading"><div><span class="label-kicker">03 / Live stress tester</span><h2 id="tester-title">Can I afford it?</h2></div><p>Pressure-test a purchase against your personal thresholds.</p></div>
+        <div class="section-heading"><div><span class="label-kicker">05 / Live stress tester</span><h2 id="tester-title">Can I afford it?</h2></div><p>Pressure-test a purchase, rent, or EMI against your personal thresholds.</p></div>
+        <div class="tester-grid">
         <div class="tester-card glass-card">
           <div class="tester-inputs">
             <label>What are you buying?<select id="purchase-category"><option value="phone">A smartphone</option><option value="car">A car</option><option value="house">A home</option><option value="custom">Something else</option></select></label>
             <label>Target price<input id="purchase-input" type="number" inputmode="decimal" min="0" step="1000" value="75000" /></label>
           </div>
           <div class="verdict" id="verdict" data-status="safe"><div class="verdict-symbol" aria-hidden="true">✓</div><div><span class="label-kicker" id="verdict-kicker">Optimal zone</span><h3 id="verdict-title">A comfortable yes.</h3><p id="verdict-copy">This purchase stays inside your ideal wealth parameter.</p></div><div class="verdict-metric"><span>Threshold</span><strong id="verdict-threshold">₹50,000</strong></div></div>
+        </div>
+        <div class="cashflow-card glass-card">
+          <div class="card-meta"><span>Cash-flow pressure test</span><span class="rule-chip">Live check</span></div>
+          <h3>What leaves each month?</h3>
+          <p class="muted">See whether your rent and debt stay inside the two most important monthly ceilings.</p>
+          <label>Current rent<input id="rent-input" type="number" inputmode="decimal" min="0" step="500" value="12500" /></label>
+          <div class="cashflow-check" id="rent-check"><span class="check-dot">✓</span><span><b>Rent limit</b><small id="rent-check-copy">Within the 25% ceiling</small></span><strong id="rent-check-value">₹12,500</strong></div>
+          <label>Current total EMI<input id="emi-input" type="number" inputmode="decimal" min="0" step="500" value="18000" /></label>
+          <div class="cashflow-check" id="emi-check"><span class="check-dot">✓</span><span><b>Debt ceiling</b><small id="emi-check-copy">Within the home-loan cap</small></span><strong id="emi-check-value">₹18,000</strong></div>
+        </div>
         </div>
       </section>
 

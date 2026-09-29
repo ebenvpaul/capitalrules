@@ -6,7 +6,7 @@ const calc = () => {
   const monthly = state.frequency === 'annual' ? state.salary / 12 : state.salary;
   const annual = state.frequency === 'annual' ? state.salary : state.salary * 12;
   const emiRate = state.hasHomeLoan ? .36 : .20;
-  return { monthly, annual, car: annual * .75, house: annual * 5, phoneIdeal: monthly, phoneMax: monthly * 2, health: monthly * .10, investment: monthly * .20, lifestyleMin: monthly * .10, lifestyleMax: monthly * .15, emi: monthly * emiRate, emiRate, livingRate: 1 - .20 - .10 - .15 - emiRate, living: monthly * (1 - .20 - .10 - .15 - emiRate) };
+  return { monthly, annual, corpus: annual * 33, emergency: annual * .33, car: annual * .75, house: annual * 5, phoneIdeal: monthly, phoneMax: monthly * 2, health: monthly * .10, investment: monthly * .20, rent: monthly * .25, lifestyleMin: monthly * .10, lifestyleMax: monthly * .15, emi: monthly * emiRate, emiRate, livingRate: 1 - .20 - .10 - .15 - emiRate, living: monthly * (1 - .20 - .10 - .15 - emiRate) };
 };
 function render(syncControls = true) {
   const r = calc();
@@ -16,10 +16,19 @@ function render(syncControls = true) {
   }
   $('frequency-label').textContent = state.frequency === 'annual' ? '/ year' : '/ month';
   $('house-budget').textContent = format(r.house); $('car-budget').textContent = format(r.car);
+  $('corpus-value').textContent = format(r.corpus); $('emergency-value').textContent = format(r.emergency); $('rent-value').textContent = format(r.rent);
   $('phone-ideal').textContent = format(r.phoneIdeal); $('phone-max').textContent = format(r.phoneMax);
   $('monthly-total').textContent = Math.round(r.monthly).toLocaleString('en-IN'); $('investment-value').textContent = format(r.investment); $('health-value').textContent = format(r.health); $('lifestyle-value').textContent = `${format(r.lifestyleMin)}–${format(r.lifestyleMax)}`; $('emi-value').textContent = format(r.emi); $('emi-percent').textContent = `${r.emiRate * 100}%`; $('living-percent').textContent = `${Math.round(r.livingRate * 100)}%`; $('living-value').textContent = format(r.living); $('emi-label').textContent = state.hasHomeLoan ? 'With home loan' : 'Without home loan';
   $('bar-investment').style.width = '20%'; $('bar-health').style.width = '10%'; $('bar-lifestyle').style.width = '15%'; $('bar-emi').style.width = `${r.emiRate * 100}%`; $('bar-living').style.width = `${r.livingRate * 100}%`;
-  renderVerdict();
+  renderVerdict(); renderCashflow();
+}
+function renderCashflow() {
+  const r = calc(); const rent = Number($('rent-input').value) || 0; const emi = Number($('emi-input').value) || 0;
+  const rentSafe = rent <= r.rent; const emiSafe = emi <= r.emi;
+  $('rent-check').dataset.status = rentSafe ? 'safe' : 'over'; $('emi-check').dataset.status = emiSafe ? 'safe' : 'over';
+  $('rent-check-copy').textContent = rentSafe ? `Within the 25% ceiling · ${format(r.rent)} max` : `Above the 25% ceiling · ${format(r.rent)} max`;
+  $('emi-check-copy').textContent = emiSafe ? `Within the ${r.emiRate * 100}% cap · ${format(r.emi)} max` : `Above the ${r.emiRate * 100}% cap · ${format(r.emi)} max`;
+  $('rent-check-value').textContent = format(rent); $('emi-check-value').textContent = format(emi);
 }
 function renderVerdict() {
   const r = calc(), category = $('purchase-category').value, price = Number($('purchase-input').value) || 0;
@@ -34,4 +43,5 @@ $('salary-input').addEventListener('input', (event) => { const value = Number(ev
 $('salary-slider').addEventListener('input', (event) => { state.salary = Number(event.target.value); render(); });
 $('home-loan').addEventListener('change', (event) => { state.hasHomeLoan = event.target.checked; render(); });
 $('purchase-category').addEventListener('change', renderVerdict); $('purchase-input').addEventListener('input', renderVerdict);
+$('rent-input').addEventListener('input', renderCashflow); $('emi-input').addEventListener('input', renderCashflow);
 render();
