@@ -30,18 +30,26 @@ function renderCashflow() {
   $('emi-check-copy').textContent = emiSafe ? `Within the ${r.emiRate * 100}% cap · ${format(r.emi)} max` : `Above the ${r.emiRate * 100}% cap · ${format(r.emi)} max`;
   $('rent-check-value').textContent = format(rent); $('emi-check-value').textContent = format(emi);
 }
+function getPurchaseRule(metrics, category) {
+  const rules = {
+    phone: { ideal: metrics.phoneIdeal, hard: metrics.phoneMax, label: '1× monthly' },
+    car: { ideal: metrics.car, hard: metrics.car * 1.2, label: '0.75× annual' },
+    house: { ideal: metrics.house, hard: metrics.house * 1.15, label: '5× annual' },
+    custom: { ideal: metrics.monthly, hard: metrics.monthly * 2, label: '1× monthly' }
+  };
+  return rules[category] || rules.phone;
+}
 function renderVerdict() {
-  const r = calc(), category = $('purchase-category').value, price = Number($('purchase-input').value) || 0;
-  const rules = { phone: [r.phoneIdeal, r.phoneMax], car: [r.car, r.car * 1.2], house: [r.house, r.house * 1.15], custom: [r.monthly, r.monthly * 2] };
-  const [ideal, hard] = rules[category]; const verdict = $('verdict'); let status = price <= ideal ? 'safe' : price <= hard ? 'stretch' : 'over';
+  const r = calc(); const purchase = $('purchase-category'); const category = purchase.selectedOptions?.[0]?.value || purchase.value || 'phone'; const price = Number($('purchase-input').value) || 0;
+  const rule = getPurchaseRule(r, category); const verdict = $('verdict'); let status = price <= rule.ideal ? 'safe' : price <= rule.hard ? 'stretch' : 'over';
   verdict.dataset.status = status;
   const content = { safe: ['Optimal zone', 'A comfortable yes.', 'This purchase stays inside your ideal wealth parameter.', '✓'], stretch: ['Stretch zone', 'A considered maybe.', 'This purchase is possible, but it will pull against another financial priority.', '△'], over: ['Overleveraged', 'Not yet.', 'This purchase exceeds the salary ratio designed to protect your future flexibility.', '×'] }[status];
-  $('verdict-kicker').textContent = content[0]; $('verdict-title').textContent = content[1]; $('verdict-copy').textContent = content[2]; $('verdict-symbol').textContent = content[3]; $('verdict-threshold').textContent = format(ideal);
+  $('verdict-kicker').textContent = content[0]; $('verdict-title').textContent = content[1]; $('verdict-copy').textContent = content[2]; $('verdict-symbol').textContent = content[3]; $('verdict-threshold-label').textContent = `Ideal · ${rule.label}`; $('verdict-threshold').textContent = format(rule.ideal);
 }
 document.querySelectorAll('[data-frequency]').forEach((button) => button.addEventListener('click', () => { state.frequency = button.dataset.frequency; document.querySelectorAll('[data-frequency]').forEach((item) => item.classList.toggle('active', item === button)); render(); }));
 $('salary-input').addEventListener('input', (event) => { const value = Number(event.target.value); if (value > 0) { state.salary = value; render(false); } });
 $('salary-slider').addEventListener('input', (event) => { state.salary = Number(event.target.value); render(); });
 $('home-loan').addEventListener('change', (event) => { state.hasHomeLoan = event.target.checked; render(); });
-$('purchase-category').addEventListener('change', renderVerdict); $('purchase-input').addEventListener('input', renderVerdict);
+$('purchase-category').addEventListener('change', renderVerdict); $('purchase-category').addEventListener('input', renderVerdict); $('purchase-input').addEventListener('input', renderVerdict);
 $('rent-input').addEventListener('input', renderCashflow); $('emi-input').addEventListener('input', renderCashflow);
 render();
