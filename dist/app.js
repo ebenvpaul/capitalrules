@@ -44,7 +44,7 @@ function renderVerdict() {
   const rule = getPurchaseRule(r, category); const verdict = $('verdict'); let status = price <= rule.ideal ? 'safe' : price <= rule.hard ? 'stretch' : 'over';
   verdict.dataset.status = status;
   const content = { safe: ['Optimal zone', 'A comfortable yes.', 'This purchase stays inside your ideal wealth parameter.', '✓'], stretch: ['Stretch zone', 'A considered maybe.', 'This purchase is possible, but it will pull against another financial priority.', '△'], over: ['Overleveraged', 'Not yet.', 'This purchase exceeds the salary ratio designed to protect your future flexibility.', '×'] }[status];
-  $('verdict-kicker').textContent = content[0]; $('verdict-title').textContent = content[1]; $('verdict-copy').textContent = content[2]; $('verdict-symbol').textContent = content[3]; $('verdict-threshold-label').textContent = `Ideal · ${rule.label}`; $('verdict-threshold').textContent = format(rule.ideal);
+  $('verdict-kicker').textContent = content[0]; $('verdict-title').textContent = content[1]; $('verdict-copy').textContent = content[2]; $('verdict-symbol').textContent = content[3]; const thresholdLabel = $('verdict-threshold-label'); if (thresholdLabel) thresholdLabel.textContent = `Ideal · ${rule.label}`; $('verdict-threshold').textContent = format(rule.ideal);
 }
 document.querySelectorAll('[data-frequency]').forEach((button) => button.addEventListener('click', () => { state.frequency = button.dataset.frequency; document.querySelectorAll('[data-frequency]').forEach((item) => item.classList.toggle('active', item === button)); render(); }));
 $('salary-input').addEventListener('input', (event) => { const value = Number(event.target.value); if (value > 0) { state.salary = value; render(false); } });
